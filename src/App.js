@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 // import logo from './logo.svg';
 import './App.css';
 
-          className="App-link"
 class Course{
   constructor(col, dep, num, sec, prof, key) {
     this.col = col;
