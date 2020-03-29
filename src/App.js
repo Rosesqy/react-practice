@@ -16,7 +16,7 @@ class Course{
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {courseList:[],myCourse:[]};
+        this.state = {courseList:[],myCourseList:[]};
         this.onClickGet = this.onClickGet.bind(this);
         this.onClickAdd = this.onClickAdd.bind(this);
         this.onClickDel = this.onClickDel.bind(this);
@@ -31,89 +31,87 @@ class App extends Component {
     }
 
     onClickAdd(course){
-        this.state.myCourse.push(course);
+        const {myCourseList} = this.state;
+        myCourseList.push(course);
         // eslint-disable-next-line no-undef
-        this.setState({myCourse:this.state.myCourse});
+        this.setState({myCourseList});
     }
 
     onClickDel(course){
-        const keepCourse = myc => myc.col !== course.col
-            || myc.dep !== course.dep
-            || myc.num !== course.num
-            || myc.sec !== course.sec
-            || myc.prof !== course.prof;
-        const updatedList = this.state.myCourse.filter(keepCourse);
-        this.setState({myCourse:updatedList});
+        let {myCourseList} = this.state;
+        myCourseList = myCourseList.filter(myCourseList => myCourseList.key !== course.key);
+        this.setState({myCourseList});
     }
+
 
     render() {
         const columns = ['College','Department','Number','Section','Professor'];
 
-        return (
-            <div className="App">
+        return <div className="App">
           <span><button
               onClick={() => this.onClickGet()}
-              type = 'button'>
+              type='button'>
               Get courses
           </button></span>
-                <br/>
-                <span>Course List</span>
-                <table>
-                    <thead>
+            <br/>
+            <span>Course List</span>
+            <table>
+                <thead>
+                <tr>
+                    {columns.map(column =>
+                        <th key={column}>{column}</th>)}
+                </tr>
+                </thead>
+                {this.state.courseList.map(course =>
+                    <tbody key={course.key}>
                     <tr>
-                        {columns.map(column =>
-                            <th key = {column}>{column}</th>)}
-                    </tr>
-                    </thead>
-                    {this.state.courseList.map(course =>
-                        <tbody key = {course.key}>
-                        <tr>
-                            <td>{course.col}</td>
-                            <td>{course.dep}</td>
-                            <td>{course.num}</td>
-                            <td>{course.sec}</td>
-                            <td>{course.prof}</td>
-                            <td>
+                        <td>{course.col}</td>
+                        <td>{course.dep}</td>
+                        <td>{course.num}</td>
+                        <td>{course.sec}</td>
+                        <td>{course.prof}</td>
+                        <td>
                             <button
                                 onClick={() => this.onClickAdd(course)}
-                                type = 'button'
+                                type='button'
                             >
                                 Add to my courses
-                            </button></td>
-                        </tr>
-                        </tbody>
-                    )}
-                </table>
-                <br/>
-                <span>My Courses</span>
-                <table>
-                    <thead>
-                    <tr>
-                        {columns.map(column =>
-                            <th key = {column}>{column}</th>)}
+                            </button>
+                        </td>
                     </tr>
-                    </thead>
-                    {this.state.myCourse.map(course =>
-                        <tbody key = {course.key}>
-                        <tr>
-                            <td>{course.col}</td>
-                            <td>{course.dep}</td>
-                            <td>{course.num}</td>
-                            <td>{course.sec}</td>
-                            <td>{course.prof}</td>
-                            <td>
-                                <button
-                                    onClick={() => this.onClickDel(course)}
-                                    type = 'button'
-                                >
-                                    Delete
-                                </button></td>
-                        </tr>
-                        </tbody>
-                    )}
-                </table>
-            </div>
-        );
+                    </tbody>
+                )}
+            </table>
+            <br/>
+            <span>My Courses</span>
+            <table>
+                <thead>
+                <tr>
+                    {columns.map(column =>
+                        <th key={column}>{column}</th>)}
+                </tr>
+                </thead>
+                {this.state.myCourseList.map(course =>
+                    <tbody key={course.key}>
+                    <tr>
+                        <td>{course.col}</td>
+                        <td>{course.dep}</td>
+                        <td>{course.num}</td>
+                        <td>{course.sec}</td>
+                        <td>{course.prof}</td>
+                        <td>
+                            <button
+                                onClick={() => this.onClickDel(course)}
+                                type='button'
+                            >
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                )}
+            </table>
+        </div>;
     }
 }
 
