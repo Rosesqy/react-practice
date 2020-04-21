@@ -27,9 +27,7 @@ class App extends Component {
             searchTerms,
             courseList:[],
             myCourseList:[]};
-        this.onClickGet = this.onClickGet.bind(this);
-        this.onClickAdd = this.onClickAdd.bind(this);
-        this.onClickDel = this.onClickDel.bind(this);
+
     }
 
     onClickGet(){
@@ -43,16 +41,18 @@ class App extends Component {
         this.setState({courseList});
     }
 
+
+
     onClickAdd = (course) => {
         const {myCourseList} = this.state;
-        var existed = false;
-        for(var i =0; i<myCourseList.length; i++) {
-            if (myCourseList[i].key === course.key){
-                existed = true;
-                break;
-            }
-        }
-        if(!existed)
+        // var existed = false;
+        // for(var i =0; i<myCourseList.length; i++) {
+        //     if (myCourseList[i].key === course.key){
+        //         existed = true;
+        //         break;
+        //     }
+        // }
+        if(myCourseList.filter(myCourse => myCourse.key === course.key).length === 0)
             myCourseList.push(course);
         // eslint-disable-next-line no-undef
         this.setState({myCourseList});
